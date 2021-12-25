@@ -1,0 +1,40 @@
+{
+ "collection_info": {
+  "namespace": "community",
+  "name": "tplink",
+  "version": "0.0.5",
+  "authors": [
+   "Kjell, Jarmo and Pascal van Dam"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "network",
+   "switch",
+   "tplink",
+   "tp-link",
+   "T1500",
+   "T1600,
+   "TL-SG3428X",
+   "TL-SG3452P¨,
+   "bussiness"
+  ],
+  "description": "TP-Link business line switches - T1500, T1600, TL-SG3452P, TL-SG3428X",
+  "license": [],
+  "license_file": "LICENSE",
+  "dependencies": {
+   "ansible.netcommon": ">=1.5.0"
+  },
+  "repository": "https://github.com/pascal71/community.tplink",
+  "documentation": null,
+  "homepage": null,
+  "issues": "https://github.com/pascal71/community.tplink/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "351f718a0d35b5698ab69ff2b3e4d92337fdbaa7186034bf6256594f47a84d29",
+  "format": 1
+ },
+ "format": 1
+}

@@ -1,0 +1,8 @@
+ancestor: null
+releases:
+  0.0.5:
+    changes:
+      major_changes:
+      - TP-Link module with working factset
+      - Interfaces, system, l2_interfaces, lag_interfaces and vlans modules
+    release_date: '2021-12-24'
