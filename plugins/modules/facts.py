@@ -385,9 +385,9 @@ class Interfaces(FactsBase):
         #if data:
         #    self.populate_interfaces_configuration(data)
 
-        #data = self.responses[5]
-        #if data:
-        #    self.populate_interfaces_description(data)
+        data = self.responses[4]
+        if data:
+            self.populate_interfaces_description(data)
 
         #data = self.responses[6]
         #if data:
@@ -456,12 +456,19 @@ class Interfaces(FactsBase):
         tables = tplink_split_to_tables(data)
 
         interface_table = tplink_parse_table(tables[0])
+
+        ## TP-Link switches do not have a separate portchannel table
+
         #portchanel_table = tplink_parse_table(tables[1])
 
         interfaces = self._populate_interfaces_status_interface(interface_table)
         self.facts["interfaces"] = tplink_merge_dicts(
             self.facts["interfaces"], interfaces
         )
+
+
+        ## TP-Link switches do not have a separate portchannel table
+
         #interfaces = self._populate_interfaces_status_portchanel(portchanel_table)
         #self.facts["interfaces"] = tplink_merge_dicts(
         #    self.facts["interfaces"], interfaces
@@ -518,7 +525,7 @@ class Interfaces(FactsBase):
 
             i = interface_table[key]
             interface = dict()
-            interface["description"] = i[1]
+            interface["description"] = i[5]
 
             if interface["description"] == "":
                 interface["description"] = None
@@ -547,16 +554,17 @@ class Interfaces(FactsBase):
         tables = tplink_split_to_tables(data)
 
         interface_table = tplink_parse_table(tables[0], False)
-        portchanel_table = tplink_parse_table(tables[1], False)
+        #portchanel_table = tplink_parse_table(tables[1], False)
 
         interfaces = self._populate_interfaces_description_interface(interface_table)
         self.facts["interfaces"] = tplink_merge_dicts(
             self.facts["interfaces"], interfaces
         )
-        interfaces = self._populate_interfaces_description_portchanel(portchanel_table)
-        self.facts["interfaces"] = tplink_merge_dicts(
-            self.facts["interfaces"], interfaces
-        )
+
+        #interfaces = self._populate_interfaces_description_portchanel(portchanel_table)
+        #self.facts["interfaces"] = tplink_merge_dicts(
+        #    self.facts["interfaces"], interfaces
+        #)
 
     def _populate_address_ipv4(self, ip_table):
         ips = list()
