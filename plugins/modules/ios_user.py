@@ -393,8 +393,17 @@ def map_obj_to_commands(updates, module):
                 commands.append(user_del_cmd(want["name"]))
         if needs_update(want, have, "view"):
             add(commands, want, "view %s" % want["view"])
+        
+        ##
+        ## Tricky
+        ##
+        ## On TP-Link switches in order to update the privilege we need
+        ## to specify the password
+        ##
+
         if needs_update(want, have, "privilege"):
-            add(commands, want, "privilege %s" % want["privilege"])
+            add(commands, want, "privilege %s %s %s" % (want["privilege"], password_type, want["configured_password"]))
+
         if needs_update(want, have, "sshkey"):
             add_ssh(commands, want, want["sshkey"])
         if needs_update(want, have, "configured_password"):
