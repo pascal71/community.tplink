@@ -161,7 +161,7 @@ EXAMPLES = """
 # vios#show running-config | include ip route|ipv6 route
 
 - name: Merge provided configuration with device configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - vrf: blue
       address_families:
@@ -228,7 +228,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Replace provided configuration with device configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - address_families:
       - afi: ipv4
@@ -270,7 +270,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Override provided configuration with device configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - vrf: blue
       address_families:
@@ -316,7 +316,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Delete provided configuration from the device configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - vrf: ansible_temp_vrf
       address_families:
@@ -380,7 +380,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Delete provided configuration from the device configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - address_families:
       - afi: ipv4
@@ -417,7 +417,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Delete provided configuration from the device configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - vrf: ansible_temp_vrf
     state: deleted
@@ -449,7 +449,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Delete ALL configured IOS static routes
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     state: deleted
 
 # Commands fired:
@@ -479,7 +479,7 @@ EXAMPLES = """
 # ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:3::2 name test_v6 tag 105
 
 - name: Gather listed static routes with provided configurations
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     state: gathered
 
@@ -568,7 +568,7 @@ EXAMPLES = """
 # Using rendered
 
 - name: Render the commands for provided  configuration
-  cisco.ios.ios_static_routes:
+  community.tplinK.ios_static_routes:
     config:
     - vrf: ansible_temp_vrf
       address_families:
@@ -656,10 +656,10 @@ parsed:
     of the parameters above.
 """
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.static_routes.static_routes import (
+from ansible_collections.community.tplinK.plugins.module_utils.network.ios.argspec.static_routes.static_routes import (
     Static_RoutesArgs,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.config.static_routes.static_routes import (
+from ansible_collections.community.tplinK.plugins.module_utils.network.ios.config.static_routes.static_routes import (
     Static_Routes,
 )
 

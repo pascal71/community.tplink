@@ -151,7 +151,7 @@ EXAMPLES = """
 #
 
 - name: Merge provided configuration with device configuration
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     config:
     - name: GigabitEthernet0/1
       receive: true
@@ -222,7 +222,7 @@ EXAMPLES = """
 #    Rx state: WAIT FOR FRAME
 
 - name: Override device configuration of all lldp_interfaces with provided configuration
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     config:
     - name: GigabitEthernet0/2
       receive: true
@@ -289,7 +289,7 @@ EXAMPLES = """
 #
 
 - name: Replaces device configuration of listed lldp_interfaces with provided configuration
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     config:
     - name: GigabitEthernet0/2
       receive: true
@@ -358,7 +358,7 @@ EXAMPLES = """
 #    Rx state: WAIT FOR FRAME
 
 - name: "Delete LLDP attributes of given interfaces (Note: This won't delete the interface itself)"
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     config:
     - name: GigabitEthernet0/1
     state: deleted
@@ -424,7 +424,7 @@ EXAMPLES = """
 #    Rx state: WAIT FOR FRAME
 
 - name: "Delete LLDP attributes for all configured interfaces (Note: This won't delete the interface itself)"
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     state: deleted
 
 # After state:
@@ -480,7 +480,7 @@ EXAMPLES = """
 #    Rx state: WAIT FOR FRAME
 
 - name: Gather listed LLDP interfaces with provided configurations
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     config:
     state: gathered
 
@@ -530,7 +530,7 @@ EXAMPLES = """
 # Using Rendered
 
 - name: Render the commands for provided  configuration
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     config:
     - name: GigabitEthernet0/0
       receive: true
@@ -580,7 +580,7 @@ EXAMPLES = """
 #   Rx state: INIT
 
 - name: Parse the commands for provided configuration
-  cisco.ios.ios_lldp_interfaces:
+  community.tplink.ios_lldp_interfaces:
     running_config: "{{ lookup('file', 'parsed.cfg') }}"
     state: parsed
 
@@ -629,10 +629,10 @@ commands:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.lldp_interfaces.lldp_interfaces import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.lldp_interfaces.lldp_interfaces import (
     Lldp_InterfacesArgs,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.config.lldp_interfaces.lldp_interfaces import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.config.lldp_interfaces.lldp_interfaces import (
     Lldp_Interfaces,
 )
 

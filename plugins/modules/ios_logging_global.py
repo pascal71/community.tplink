@@ -395,7 +395,7 @@ EXAMPLES = """
 # no logging trap
 
 - name: Apply the provided configuration
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     config:
       buffered:
         severity: notifications
@@ -506,7 +506,7 @@ EXAMPLES = """
 # logging host 172.16.1.10 filtered stream 10
 
 - name: Remove all existing configuration
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     state: deleted
 
 # Commands Fired:
@@ -569,7 +569,7 @@ EXAMPLES = """
 # logging host 172.16.1.25 filtered
 
 - name: Override commands with provided configuration
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     config:
       hosts:
         - hostname: 172.16.1.27
@@ -636,7 +636,7 @@ EXAMPLES = """
 # logging host 172.16.1.10 filtered stream 10
 
 - name: Replace commands with provided configuration
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     config:
       buffered:
         severity: alerts
@@ -710,7 +710,7 @@ EXAMPLES = """
 # logging host 172.16.1.25 filtered
 
 - name: Gather listed logging config
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     state: gathered
 
 # Module Execution Result:
@@ -801,7 +801,7 @@ EXAMPLES = """
 # Using state: rendered
 
 - name: Render the commands for provided configuration
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     config:
       buffered:
         severity: notifications
@@ -897,7 +897,7 @@ EXAMPLES = """
 # logging filter tftp://172.16.2.14/ESM/escalate.tcl args TESTInst
 
 - name: Parse the provided configuration with the existing running configuration
-  cisco.ios.ios_logging_global:
+  community.tplink.ios_logging_global:
     running_config: "{{ lookup('file', 'parsed.cfg') }}"
     state: parsed
 
@@ -1033,10 +1033,10 @@ commands:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.logging_global.logging_global import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.logging_global.logging_global import (
     Logging_globalArgs,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.config.logging_global.logging_global import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.config.logging_global.logging_global import (
     Logging_global,
 )
 

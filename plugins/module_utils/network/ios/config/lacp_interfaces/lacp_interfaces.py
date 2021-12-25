@@ -22,18 +22,18 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.c
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     to_list,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.facts.facts import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.facts.facts import (
     Facts,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     dict_to_set,
     normalize_interface,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     remove_command_from_config_list,
     add_command_to_config_list,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     filter_dict_having_none_value,
     remove_duplicate_interface,
 )
@@ -86,6 +86,7 @@ class Lacp_Interfaces(ConfigBase):
             commands.extend(self.set_config(existing_lacp_interfaces_facts))
         if commands and self.state in self.ACTION_STATES:
             if not self._module.check_mode:
+                commands.insert(0,'configure')
                 self._connection.edit_config(commands)
             result["changed"] = True
 

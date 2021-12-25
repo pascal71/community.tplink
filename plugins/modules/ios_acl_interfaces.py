@@ -126,7 +126,7 @@ EXAMPLES = """
 #  ip access-group 123 out
 
 - name: Merge module attributes of given access-groups
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     - name: GigabitEthernet0/1
       access_groups:
@@ -195,7 +195,7 @@ EXAMPLES = """
 #  ip access-group 123 out
 
 - name: Replace module attributes of given access-groups
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     - name: GigabitEthernet0/1
       access_groups:
@@ -247,7 +247,7 @@ EXAMPLES = """
 #  ip access-group 123 out
 
 - name: Overridden module attributes of given access-groups
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     - name: GigabitEthernet0/1
       access_groups:
@@ -300,7 +300,7 @@ EXAMPLES = """
 #  ip access-group 123 out
 
 - name: Delete module attributes of given Interface
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     - name: GigabitEthernet0/1
     state: deleted
@@ -344,7 +344,7 @@ EXAMPLES = """
 #  ip access-group 123 out
 
 - name: Delete module attributes of given access-groups from ALL Interfaces
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     state: deleted
 
@@ -387,7 +387,7 @@ EXAMPLES = """
 #  ip access-group 123 out
 
 - name: Gather listed acl interfaces with provided configurations
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     state: gathered
 
@@ -470,7 +470,7 @@ EXAMPLES = """
 # Using Rendered
 
 - name: Render the commands for provided  configuration
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     config:
     - name: GigabitEthernet0/1
       access_groups:
@@ -511,7 +511,7 @@ EXAMPLES = """
 # ipv6 traffic-filter test_v6 out
 
 - name: Parse the commands for provided configuration
-  cisco.ios.ios_acl_interfaces:
+  community.tplink.ios_acl_interfaces:
     running_config: "{{ lookup('file', 'parsed.cfg') }}"
     state: parsed
 
@@ -562,10 +562,10 @@ commands:
   sample: ['interface GigabitEthernet0/1', 'ip access-group 110 in', 'ipv6 traffic-filter test_v6 out']
 """
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.acl_interfaces.acl_interfaces import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.acl_interfaces.acl_interfaces import (
     Acl_InterfacesArgs,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.config.acl_interfaces.acl_interfaces import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.config.acl_interfaces.acl_interfaces import (
     Acl_Interfaces,
 )
 

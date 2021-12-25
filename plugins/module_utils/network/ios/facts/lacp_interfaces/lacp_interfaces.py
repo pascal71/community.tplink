@@ -20,11 +20,11 @@ from copy import deepcopy
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
     utils,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     get_interface_type,
     normalize_interface,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.lacp_interfaces.lacp_interfaces import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.lacp_interfaces.lacp_interfaces import (
     Lacp_InterfacesArgs,
 )
 
@@ -61,9 +61,11 @@ class Lacp_InterfacesFacts(object):
 
         objs = []
         if not data:
-            data = connection.get("show running-config | section ^interface")
+            data = connection.get("show running-config")
         # operate on a collection of resource x
-        config = ("\n" + data).split("\ninterface ")
+        
+        #config = ("\n" + data).split("\ninterface ")
+        config = data.split("\ninterface ")
 
         for conf in config:
             if conf:
@@ -93,11 +95,18 @@ class Lacp_InterfacesFacts(object):
         :rtype: dictionary
         :returns: The generated config
         """
+        of = open ("/tmp/lacp_interfaces.log","a")
+
         config = deepcopy(spec)
-        match = re.search(r"^(\S+)", conf)
+        match = re.search(r"^(\S+) (\S+)", conf, re.M|re.I)
         intf = match.group(1)
+
         if get_interface_type(intf) == "unknown":
             return {}
+
+        of.write ("Interface: %s<--\n" % intf)
+        intf = intf + " " + match.group(2)
+        of.write ("Full Interface: %s<--\n" % intf)
 
         config["name"] = normalize_interface(intf)
         port_priority = utils.parse_conf_arg(conf, "lacp port-priority")
