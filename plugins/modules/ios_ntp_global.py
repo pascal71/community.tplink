@@ -16,12 +16,12 @@ DOCUMENTATION = """
 module: ios_ntp_global
 short_description: ntp_global resource module
 description:
-- This module provides declarative management of ntp on TP-Link business switches
-version_added: 0.4.0
+- This module provides declarative management of ntp on Cisco IOS devices.
+version_added: 2.5.0
 author:
-- Kjell & Pascal van Dam
+- Sagar Paul (@KB-perByte)
 notes:
-- Tested against TP-Link V3 firmware
+- Tested against Cisco IOSv Version 15.6.
 - This module works with connection C(network_cli).
 options:
   config:
@@ -282,7 +282,7 @@ EXAMPLES = """
 # ------------
 
 - name: Apply the provided configuration
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     config:
       access_group:
         peer:
@@ -445,7 +445,7 @@ EXAMPLES = """
 # -------------
 
 - name: Remove all existing configuration
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     state: deleted
 
 # Commands Fired:
@@ -505,7 +505,7 @@ EXAMPLES = """
 # ----------------
 
 - name: Override commands with provided configuration
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     config:
       peers:
         - peer: ipv6DomainNew.com
@@ -559,7 +559,7 @@ EXAMPLES = """
 # --------------
 
 - name: Replace commands with provided configuration
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     config:
       broadcast_delay: 22
       clock_period: 5
@@ -637,7 +637,7 @@ EXAMPLES = """
 # --------------
 
 - name: Gather listed ntp config
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     state: gathered
 
 # Module Execution Result:
@@ -771,7 +771,7 @@ EXAMPLES = """
 # --------------
 
 - name: Render the commands for provided configuration
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     config:
       access_group:
         peer:
@@ -910,7 +910,7 @@ EXAMPLES = """
 # ------------
 
 - name: Parse the provided configuration with the existing running configuration
-  community.tplink.ios_ntp_global:
+  cisco.ios.ios_ntp_global:
     running_config: "{{ lookup('file', 'parsed.cfg') }}"
     state: parsed
 
@@ -1059,10 +1059,10 @@ parsed:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.ntp_global.ntp_global import (
+from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.ntp_global.ntp_global import (
     Ntp_globalArgs,
 )
-from ansible_collections.community.tplink.plugins.module_utils.network.ios.config.ntp_global.ntp_global import (
+from ansible_collections.cisco.ios.plugins.module_utils.network.ios.config.ntp_global.ntp_global import (
     Ntp_global,
 )
 
