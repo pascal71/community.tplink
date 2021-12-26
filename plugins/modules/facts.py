@@ -341,6 +341,7 @@ class Interfaces(FactsBase):
         "show interface config",
         "show interface vlan 1",
         "show jumbo-size",
+        "show lldp neighbor-information interface",
         "exit"
     ]
 
@@ -389,9 +390,9 @@ class Interfaces(FactsBase):
         if data:
             self.populate_interfaces_description(data)
 
-        #data = self.responses[6]
-        #if data:
-        #    self.populate_neighbors(data)
+        data = self.responses[7]
+        if data:
+            self.populate_neighbors(data)
 
     def _populate_interfaces_status_interface(self, interface_table):
         interfaces = dict()
@@ -679,27 +680,33 @@ class Interfaces(FactsBase):
         self._mtu = mtu
 
     def populate_neighbors(self, data):
-        tables = tplink_split_to_tables(data)
 
-        neighbor_table = tplink_parse_table(tables[0], allow_empty_fields=[3])
+       out = open ("/tmp/populate_neighbors.log","a")
 
-        neighbors = dict()
-        for key in neighbor_table:
-            neighbor = neighbor_table[key]
+       out.write(data)
 
-            ifcname = interface_canonical_name(neighbor[0])
+        
+       # tables = tplink_split_to_tables(data)
 
-            host = neighbor[3]
-            port = neighbor[2]
+       # neighbor_table = tplink_parse_table(tables[0], allow_empty_fields=[3])
 
-            hostport = {"host": host, "port": port}
+       neighbors = dict()
+       # for key in neighbor_table:
+       #     neighbor = neighbor_table[key]
 
-            if ifcname not in neighbors:
-                neighbors[ifcname] = list()
+       #     ifcname = interface_canonical_name(neighbor[0])
 
-            neighbors[ifcname].append(hostport)
+       #     host = neighbor[3]
+       #     port = neighbor[2]
 
-        self.facts["neighbors"] = neighbors
+       #     hostport = {"host": host, "port": port}
+
+       #     if ifcname not in neighbors:
+       #         neighbors[ifcname] = list()
+
+       #     neighbors[ifcname].append(hostport)
+
+       self.facts["neighbors"] = neighbors
 
 
 FACT_SUBSETS = dict(
