@@ -20,11 +20,11 @@ from copy import deepcopy
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
     utils,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     get_interface_type,
     normalize_interface,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.lldp_interfaces.lldp_interfaces import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.lldp_interfaces.lldp_interfaces import (
     Lldp_InterfacesArgs,
 )
 
@@ -90,18 +90,28 @@ class Lldp_InterfacesFacts(object):
         :rtype: dictionary
         :returns: The generated config
         """
+
+        of = open ("/tmp/lldp_interfaces.log","a")
+
         config = deepcopy(spec)
-        match = re.search(r"^(\S+)(:)", conf)
+        #match = re.search(r"^(\S+)(:)", conf)
+        match = re.search(r"^^(\S+) (\S+)(:)", conf, re.M|re.I)
+
         intf = ""
         if match:
             intf = match.group(1)
 
         if get_interface_type(intf) == "unknown":
             return {}
+
+        of.write ("Interface: %s<--\n" % intf)
+        intf = intf + " " + match.group(2)
+        of.write ("Full Interface: %s<--\n" % intf)
+
         if intf.lower().startswith("gi"):
             config["name"] = normalize_interface(intf)
-            receive = utils.parse_conf_arg(conf, "Rx:")
-            transmit = utils.parse_conf_arg(conf, "Tx:")
+            receive = utils.parse_conf_arg(conf, "Rx")
+            transmit = utils.parse_conf_arg(conf, "Tx")
 
             if receive == "enabled":
                 config["receive"] = True
