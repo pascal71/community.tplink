@@ -21,13 +21,13 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.c
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     to_list,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.facts.facts import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.facts.facts import (
     Facts,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     dict_to_set,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.utils.utils import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.utils.utils import (
     filter_dict_having_none_value,
 )
 
@@ -92,6 +92,7 @@ class Lldp_global(ConfigBase):
             commands.extend(self.set_config(existing_lldp_global_facts))
         if commands and self.state in self.ACTION_STATES:
             if not self._module.check_mode:
+                commands.insert(0,'configure')
                 self._connection.edit_config(commands)
             result["changed"] = True
         if self.state in self.ACTION_STATES:
@@ -235,16 +236,16 @@ class Lldp_global(ConfigBase):
             tlv_select = diff.get("tlv_select")
 
             if holdtime:
-                cmd = "lldp holdtime {0}".format(holdtime)
+                cmd = "lldp hold-multiplier {0}".format(holdtime)
                 self.add_command_to_config_list(cmd, commands)
             if enabled:
-                cmd = "lldp run"
+                cmd = "lldp"
                 self.add_command_to_config_list(cmd, commands)
             if timer:
-                cmd = "lldp timer {0}".format(timer)
+                cmd = "lldp timer notify-interval {0}".format(timer)
                 self.add_command_to_config_list(cmd, commands)
             if reinit:
-                cmd = "lldp reinit {0}".format(reinit)
+                cmd = "lldp timer reinit-delay {0}".format(reinit)
                 self.add_command_to_config_list(cmd, commands)
             if tlv_select:
                 tlv_selec_dict = dict(tlv_select)

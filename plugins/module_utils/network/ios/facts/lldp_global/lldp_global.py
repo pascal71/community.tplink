@@ -19,7 +19,7 @@ from copy import deepcopy
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
     utils,
 )
-from ansible_collections.cisco.ios.plugins.module_utils.network.ios.argspec.lldp_global.lldp_global import (
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.argspec.lldp_global.lldp_global import (
     Lldp_globalArgs,
 )
 
@@ -43,7 +43,7 @@ class Lldp_globalFacts(object):
         self.generated_spec = utils.generate_dict(facts_argument_spec)
 
     def get_lldp_global_data(self, connection):
-        return connection.get("show running-config | section ^lldp")
+        return connection.get("show running-config")
 
     def populate_facts(self, connection, ansible_facts, data=None):
         """ Populate the facts for lldp_global
@@ -85,12 +85,12 @@ class Lldp_globalFacts(object):
         """
         config = deepcopy(spec)
 
-        holdtime = utils.parse_conf_arg(conf, "lldp holdtime")
-        timer = utils.parse_conf_arg(conf, "lldp timer")
-        reinit = utils.parse_conf_arg(conf, "lldp reinit")
+        holdtime = utils.parse_conf_arg(conf, "lldp hold-multiplier")
+        timer = utils.parse_conf_arg(conf, "lldp timer notify-interval")
+        reinit = utils.parse_conf_arg(conf, "lldp timer reinit-delay")
         if holdtime:
             config["holdtime"] = int(holdtime)
-        if "lldp run" in conf:
+        if "lldp" in conf:
             config["enabled"] = True
         if timer:
             config["timer"] = int(timer)
