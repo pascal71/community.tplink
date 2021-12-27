@@ -116,4 +116,20 @@ class Qos_InterfacesFacts(object):
         if trust_mode:
             config["trust_mode"] = trust_mode
 
+        queue = dict()
+
+        qos_queue  = utils.parse_conf_arg(conf, "qos queue")
+        if qos_queue:
+            qos_queue_param = qos_queue.split(" ")
+
+            queue["nr"] = int(qos_queue_param[0])
+            queue["mode"] = qos_queue_param[2]
+            queue["weight"] = int (qos_queue_param[4])
+
+            of.write ("Queue nr: %d\n" % queue["nr"])
+            of.write ("Mode     : %s\n" % queue["mode"])
+            of.write ("Weight   : %d\n" % queue["weight"])
+
+        #config.queue = queue 
+
         return utils.remove_empties(config)

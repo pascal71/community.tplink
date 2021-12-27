@@ -278,6 +278,7 @@ class Qos_Interfaces(ConfigBase):
             port_priority = dict(diff).get("port_priority")
             #max_bundle = dict(diff).get("max_bundle")
             trust_mode = dict(diff).get("trust_mode")
+            queue = dict(diff).get("queue")
             #fast_switchover = dict(diff).get("fast_switchover")
             if port_priority:
                 cmd = "qos port-priority {0}".format(port_priority)

@@ -45,6 +45,19 @@ class Qos_InterfacesArgs(object):
                 "name": {"required": True, "type": "str"},
                 "trust_mode": {"type": "str", "choices": ["untrust", "dot1p", "dscp" ]},
                 "port_priority": {"type": "int"},
+                "queue": {
+                    "type": "dict",
+                    "options": {
+                        "nr": {"required": True, "type": "int"},
+                        "weight": {"required": True, "type": "int"},
+                        "mode": {
+                            "required:": True,
+                            "type": "str",
+                            "choices": ["sp","wrr"],
+                        },
+                    },
+                },
+
             },
             "type": "list",
         },
