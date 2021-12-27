@@ -80,6 +80,9 @@ from ansible_collections.community.tplink.plugins.module_utils.network.ios.facts
 from ansible_collections.community.tplink.plugins.module_utils.network.ios.facts.ntp_global.ntp_global import (
     Ntp_globalFacts,
 )
+from ansible_collections.community.tplink.plugins.module_utils.network.ios.facts.qos_interfaces.qos_interfaces import (
+    Qos_InterfacesFacts,
+)
 from ansible_collections.community.tplink.plugins.module_utils.network.ios.facts.legacy.base import (
     Default,
     Hardware,
@@ -101,6 +104,7 @@ FACT_RESOURCE_SUBSETS = dict(
     lacp_interfaces=Lacp_InterfacesFacts,
     lldp_global=Lldp_globalFacts,
     lldp_interfaces=Lldp_InterfacesFacts,
+    qos_interfaces=Qos_InterfacesFacts,
     l3_interfaces=L3_InterfacesFacts,
     acl_interfaces=Acl_InterfacesFacts,
     static_routes=Static_RoutesFacts,

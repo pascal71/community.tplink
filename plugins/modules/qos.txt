@@ -1,0 +1,2 @@
+qos queue 0 mode wrr weight 12
+
