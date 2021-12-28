@@ -132,7 +132,7 @@ class L2_InterfacesFacts(object):
             has_mode = utils.parse_conf_arg(conf, "switchport mode")
             if has_mode:
                 config["mode"] = has_mode
-            has_access = utils.parse_conf_arg(conf, "switchport access vlan")
+            has_access = utils.parse_conf_arg(conf, "switchport pvid")
             if has_access:
                 config["access"] = {"vlan": int(has_access)}
 
