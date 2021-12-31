@@ -142,9 +142,17 @@ class InterfacesFacts(object):
         else:
             config["description"] = utils.parse_conf_arg(conf, "description")
 
-        config["flow-control"] = utils.parse_conf_arg(conf, "flow-control")
-        config["eee"] = utils.parse_conf_arg(conf, "eee")
-        config["poe"] = utils.parse_conf_arg(conf, "power inline supply disable")
+        flow_control = utils.parse_conf_cmd_arg(conf, "flow-control", True)
+        config["flow-control"] = "enabled" if flow_control is not None else "disabled"
+
+        eee = utils.parse_conf_cmd_arg(conf,"eee", True)
+        config["eee"] = "enabled" if eee is not None else "disabled"
+
+        poe = utils.parse_conf_arg(conf, "power inline supply")
+        if poe:
+            config["poe"] = "disabled"
+        else:
+            config["poe"] = "enabled"
 
         out.write ("Conf:\n") 
         out.write ("%s\n" % conf) 
