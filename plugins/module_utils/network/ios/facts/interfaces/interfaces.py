@@ -136,7 +136,12 @@ class InterfacesFacts(object):
         out.write("description: %s\n" % utils.parse_conf_arg(conf,"description"))
 
         config["name"] = normalize_interface(intf)
-        config["description"] = utils.parse_conf_arg(conf, "description")
+        description = utils.parse_conf_arg(conf, "description")
+        if description:
+            config["description"] = utils.parse_conf_arg(conf, "description").strip('"')
+        else:
+            config["description"] = utils.parse_conf_arg(conf, "description")
+
         config["flow-control"] = utils.parse_conf_arg(conf, "flow-control")
         config["eee"] = utils.parse_conf_arg(conf, "eee")
         config["poe"] = utils.parse_conf_arg(conf, "power inline supply disable")
@@ -151,10 +156,21 @@ class InterfacesFacts(object):
         out.write ("Test for description: %s\n" % utils.parse_conf_arg(conf, "description"))
         out.write ("\n")
 
-        config["speed"] = utils.parse_conf_arg(conf, "speed")
+        speed = utils.parse_conf_arg(conf, "speed")
+        if speed:
+            config["speed"] = speed
+        else:
+            config["speed"] = "auto"
+	
         if utils.parse_conf_arg(conf, "mtu"):
             config["mtu"] = int(utils.parse_conf_arg(conf, "mtu"))
-        config["duplex"] = utils.parse_conf_arg(conf, "duplex")
+       
+        duplex = utils.parse_conf_arg(conf, "duplex")
+        if duplex:
+            config["duplex"] = duplex
+        else:
+            config["duplex"] = "auto"
+
         enabled = utils.parse_conf_cmd_arg(conf, "shutdown", False)
         config["enabled"] = enabled if enabled is not None else True
 
