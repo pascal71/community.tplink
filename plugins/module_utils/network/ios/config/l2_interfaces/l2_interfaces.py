@@ -53,7 +53,7 @@ class L2_Interfaces(ConfigBase):
         "encapsulation": "switchport trunk encapsulation",
         "pruning_vlans": "switchport trunk pruning vlan",
         "pruning_vlans_add": "switchport trunk pruning vlan add",
-        "native_vlan": "switchport trunk native vlan",
+        "native_vlan": "switchport general allowed vlan",
         "allowed_vlans": "switchport general allowed vlan",
         "allowed_vlans_add": "switchport trunk allowed vlan add",
     }
@@ -364,8 +364,10 @@ class L2_Interfaces(ConfigBase):
                     )
                     add_command_to_config_list(interface, cmd, commands)
                 if diff.get("native_vlan"):
-                    cmd = self.trunk_cmds["native_vlan"] + " {0}".format(
+                    cmd = self.trunk_cmds["native_vlan"] + " {0} tagged".format(
                         diff.get("native_vlan")
+                    #cmd = self.trunk_cmds["native_vlan"].format(
+                        #diff.get("native_vlan")
                     )
                     add_command_to_config_list(interface, cmd, commands)
                 allowed_vlans = diff.get("allowed_vlans")
@@ -389,7 +391,7 @@ class L2_Interfaces(ConfigBase):
                     allowed_vlans = ",".join(allowed_vlans)
                     if allowed_vlans:
                         trunk_cmd = (
-                            self.trunk_cmds["allowed_vlans_add"]
+                            self.trunk_cmds["allowed_vlans"]
                             if self.state == "merged" and diff
                             else self.trunk_cmds["allowed_vlans"]
                         )
@@ -419,9 +421,12 @@ class L2_Interfaces(ConfigBase):
                         )
                         cmd = trunk_cmd + " {0}".format(pruning_vlans)
                         add_command_to_config_list(interface, cmd, commands)
-            #if mode:
-            #    cmd = "switchport mode {0}".format(mode)
-            #    add_command_to_config_list(interface, cmd, commands)
+            if mode == 'trunk':
+                cmd = "vlan_trunk"
+                add_command_to_config_list(interface, cmd, commands)
+            if mode == 'access':
+                cmd = "no vlan_trunk"
+                add_command_to_config_list(interface, cmd, commands)
 
         return commands
 
@@ -492,7 +497,7 @@ class L2_Interfaces(ConfigBase):
                 "native_vlan"
             ) != want.get("trunk").get("native_vlan"):
                 remove_command_from_config_list(
-                    interface, self.trunk_cmds["native_vlan"], commands
+                        interface, self.trunk_cmds["native_vlan"], commands
                 )
             if have.get("trunk").get("allowed_vlans") and have.get(
                 "trunk"
