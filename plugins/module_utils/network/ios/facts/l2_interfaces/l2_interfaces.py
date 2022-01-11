@@ -91,7 +91,7 @@ class L2_InterfacesFacts(object):
         :returns: The generated config
         """
 
-        of = open("/tmp/rc2.log","a")
+        of = open("/tmp/facts_l2_interfaces.log","a")
         config = deepcopy(spec)
 
         of.write ("***\n") ;
@@ -144,10 +144,13 @@ class L2_InterfacesFacts(object):
             trunk["encapsulation"] = utils.parse_conf_arg(
                 conf, "switchport trunk encapsulation"
             )
-            native_vlan = utils.parse_conf_arg(conf, "native vlan")
+
+
+            native_vlan = parse_conf_arg2(conf, "switchport general allowed vlan", "untagged")
+            allowed_vlan =parse_conf_arg2(conf, "switchport general allowed vlan", "tagged")
+
             if native_vlan:
                 trunk["native_vlan"] = int(native_vlan)
-            allowed_vlan = utils.parse_conf_arg(conf, "allowed vlan")
             if allowed_vlan:
                 trunk["allowed_vlans"] = allowed_vlan.split(",")
             allowed_vlan_add_all = re.findall("allowed vlan add.*", conf)
@@ -163,3 +166,20 @@ class L2_InterfacesFacts(object):
             config["trunk"] = trunk
 
         return utils.remove_empties(config)
+
+
+def parse_conf_arg2(cfg, arg1, arg2):
+    """
+    Parse config based on argument
+
+    :param cfg: A text string which is a line of configuration.
+    :param arg: A text string which is to be matched.
+    :rtype: A text string
+    :returns: A text string if match is found
+    """
+    match = re.search(r"%s (.+) %s(\n|$)" % (arg1, arg2), cfg, re.M)
+    if match:
+        result = match.group(1).strip()
+    else:
+        result = None
+    return result

@@ -342,6 +342,7 @@ class Interfaces(FactsBase):
         "show interface vlan 1",
         "show jumbo-size",
         "show lldp neighbor-information interface",
+        "show interface vlan 1",
         "exit"
     ]
 
@@ -414,8 +415,14 @@ class Interfaces(FactsBase):
                 if i[2][2] == 'G':
                     interface["bandwith"] = int(i[2].replace('G', '')) * 1000000  # to get speed in kb
                 else:
-                  if i[2][4] == 'M':
-                    interface["bandwith"] = int(i[2].replace('M', '')) * 1000  # to get speed in kb
+                   if i[2][2] == 'M':
+                      interface["bandwith"] = int(i[2].replace('M', '')) * 10  # to get speed in kb
+                   else:
+                      if i[2][3] == 'M':
+                         interface["bandwith"] = int(i[2].replace('M', '')) * 100  # to get speed in kb
+                      else:
+                         if i[2][4] == "M":
+                            interface["bandwith"] = int(i[2].replace('M', '')) * 1000  # to get speed in kb
             else:
                 interface["bandwith"] = None
 

@@ -60,6 +60,8 @@ class VlansFacts(object):
         :returns: facts
         """
 
+        out = open("/tmp/tplink_vlans.out", "a")
+
         objs = []
         mtu_objs = []
         remote_objs = []
@@ -73,8 +75,14 @@ class VlansFacts(object):
         temp = ""
         vlan_name = True
         for conf in config:
+
+            out.write(conf)
+            out.write("\n")
+
             if len(list(filter(None, conf.split(" ")))) <= 2 and vlan_name:
                 temp = temp + conf
+                out.write(temp)
+                out.write("\n")
                 if len(list(filter(None, temp.split(" ")))) <= 2:
                     continue
             if "VLAN Name" in conf:

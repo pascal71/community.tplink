@@ -48,6 +48,10 @@ class InterfacesFacts(object):
         self.generated_spec = utils.generate_dict(facts_argument_spec)
 
     def get_interfaces_data(self, connection):
+
+        of = open ("/tmp/gf_interfaces.log", "a")
+        of.write ("Getting facts of interfaces\n") 
+
         return connection.get("show running-config")
 
     def populate_facts(self, connection, ansible_facts, data=None):

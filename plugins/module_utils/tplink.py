@@ -323,11 +323,11 @@ def run_commands(module, commands, check_rc=True):
 
     for cmd in to_list(commands):
         if isinstance(cmd, dict):
-            outf.write (cmd['command'])
+            outf.write ("command: %s\n" % cmd['command'])
             outf.write ('\n') 
-            outf.write (cmd['prompt'])
+            outf.write ("prompt : %s\n" % cmd['prompt'])
             outf.write ('\n') 
-            outf.write (cmd['answer'])
+            outf.write ("answer : %s\n" % cmd['answer'])
             outf.write ('\n') 
             command = cmd['command']
             prompt = cmd['prompt']
@@ -342,7 +342,11 @@ def run_commands(module, commands, check_rc=True):
 
         try:
             out = connection.get(command, prompt, answer)
+            outf.write("Reponse:\n") 
+            outf.write(out) 
         except ConnectionError as exc:
+            outf.write("E-Reponse:\n") 
+            outf.write(out) 
             module.fail_json(msg=to_text(exc, errors='surrogate_then_replace'))
 
         try:

@@ -84,6 +84,9 @@ class Cliconf(CliconfBase):
              self.get(command="show vlan")
          except Exception:
              device_type = "L3"
+
+         dt = open ("/tmp/dt.log","a")
+         dt.write ("Device type is %s\n" % device_type)
          return device_type
 
     @enable_mode
@@ -156,7 +159,19 @@ class Cliconf(CliconfBase):
         return resp
 
     def get(self, command, prompt=None, answer=None, sendonly=False, newline=True, check_all=False):
-        return self.send_command(command=command, prompt=prompt, answer=answer, sendonly=sendonly, newline=newline, check_all=check_all)
+
+        #prompt="Press any key to continue.*"
+        #answer=" "
+
+        of = open("/tmp/tplink-cli.log", "a")
+        of.write ("Command  : %s\n" % command)
+        of.write ("Prompt   : %s\n" % prompt)
+        of.write ("Answer   : %s\n" % answer)
+        of.write ("Checkall : %s\n" % check_all)
+
+        out = self.send_command(command=command, prompt=prompt, answer=answer, sendonly=sendonly, newline=newline, check_all=check_all)
+        of.write ("Reponse: %s\n" % out)
+        return (out)
 
     def get_capabilities(self):
         result = super().get_capabilities()
