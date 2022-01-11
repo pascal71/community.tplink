@@ -56,6 +56,7 @@ tplink_argument_spec = {}
 def tplink_split_to_tables(data):
     TABLE_HEADER = re.compile(r"^ ---+ +-+.*$")
     EMPTY_LINE = re.compile(r"^ *$")
+    PRESS_ANY_KEY_LINE = re.compile(r"^Press any key.*$")
 
     tables = dict()
     tableno = -1
@@ -70,6 +71,10 @@ def tplink_split_to_tables(data):
         out.writelines(line) 
         if re.match(EMPTY_LINE, line):
             out.writelines('\n\nEMPTY_LINE\n\n') ;
+            tabledataget = False
+            continue
+        if re.match(PRESS_ANY_KEY_LINE, line):
+            out.writelines('\n\nPRESS_ANY_KEY_LINE\n\n') ;
             tabledataget = False
             continue
 
