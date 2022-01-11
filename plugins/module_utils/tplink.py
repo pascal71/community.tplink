@@ -71,11 +71,11 @@ def tplink_split_to_tables(data):
         out.writelines(line) 
         if re.match(EMPTY_LINE, line):
             out.writelines('\n\nEMPTY_LINE\n\n') ;
-            tabledataget = False
+            #tabledataget = False
             continue
         if re.match(PRESS_ANY_KEY_LINE, line):
             out.writelines('\n\nPRESS_ANY_KEY_LINE\n\n') ;
-            tabledataget = False
+            tabledataget = True
             continue
 
         if re.match(TABLE_HEADER, line):
@@ -221,21 +221,18 @@ def interface_canonical_name(interface):
     out = open ("/tmp/canonical-if.log", "a") 
 
     out.write ('\n') 
-    out.write (interface)
-    out.write ('\n') 
-    out.write (iftype)
+    out.write ("interface: %s\n" % interface)
+    out.write ("type     : %s\n" % iftype)
     out.write ('\n') 
 
     if iftype in base_interfaces:
         iftype = base_interfaces[iftype]
 
-    out.write (iftype)
-    out.write ('\n') 
+    out.write ("type     : %s\n" % iftype)
 
     interface = iftype + " " + str(ifno)
+    out.write ("interface: %s\n" % interface)
 
-    out.write (interface)
-    out.write ('\n') 
 
     return interface
 
