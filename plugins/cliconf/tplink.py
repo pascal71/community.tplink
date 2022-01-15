@@ -158,7 +158,7 @@ class Cliconf(CliconfBase):
           out.write ("\n")
         return resp
 
-    def get(self, command, prompt=None, answer=None, sendonly=False, newline=True, check_all=False):
+    def get(self, command, prompt=None, answer=None, pgstr=None, sendonly=False, newline=True, check_all=False):
 
         #prompt="Press any key to continue.*"
         #answer=" "
@@ -168,6 +168,15 @@ class Cliconf(CliconfBase):
         of.write ("Prompt   : %s\n" % prompt)
         of.write ("Answer   : %s\n" % answer)
         of.write ("Checkall : %s\n" % check_all)
+
+        #pgstr = '.*Quit.*Next Page.*Next Entry.*All'
+        pgstr = 'Press any key to continue.*'
+
+
+        #of.write ("Pagerstr : %s\n" % pgstr)
+
+        #out = self.send_command(command=command, prompt=prompt, answer=answer, pgstr=pgstr, sendonly=sendonly, newline=newline, check_all=check_all)
+
 
         out = self.send_command(command=command, prompt=prompt, answer=answer, sendonly=sendonly, newline=newline, check_all=check_all)
         of.write ("Reponse: %s\n" % out)

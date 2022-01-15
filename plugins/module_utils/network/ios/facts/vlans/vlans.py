@@ -14,6 +14,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+import json
 
 from copy import deepcopy
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common import (
@@ -76,17 +77,16 @@ class VlansFacts(object):
         vlan_name = True
         for conf in config:
 
-            out.write(conf)
-            out.write("\n")
+            out.write("VLAN conf: %s\n" % conf)
 
-            if len(list(filter(None, conf.split(" ")))) <= 2 and vlan_name:
+            if len(list(filter(None, conf.split(" ")))) <= 3 and vlan_name:
                 temp = temp + conf
-                out.write(temp)
-                out.write("\n")
-                if len(list(filter(None, temp.split(" ")))) <= 2:
+                out.write("Temp conf: %s\n" % temp)
+                if len(list(filter(None, temp.split(" ")))) <= 3:
                     continue
-            if "VLAN Name" in conf:
+            if "VLAN  Name" in conf:
                 vlan_info = "Name"
+                out.write("VLAN Name conf: %s\n" % conf)
             elif "VLAN Type" in conf:
                 vlan_info = "Type"
                 vlan_name = False
@@ -99,6 +99,7 @@ class VlansFacts(object):
             elif "Primary Secondary" in conf:
                 vlan_info = "Primary"
                 vlan_name = False
+                out.write("VLAN PrimSec conf: %s\n" % conf)
             if temp:
                 conf = temp
                 temp = ""
@@ -108,25 +109,28 @@ class VlansFacts(object):
                 and not conf.split(" ")[0] == ""
             ):
                 obj = self.render_config(self.generated_spec, conf, vlan_info)
+                out.write ("=====\n") 
+                json.dump(obj, out)
                 if "mtu" in obj:
                     mtu_objs.append(obj)
                 elif "remote_span" in obj:
                     remote_objs = obj
                 elif obj:
+                    out.write("added...\n") 
                     objs.append(obj)
         # Appending MTU value to the retrieved dictionary
-        for o, m in zip(objs, mtu_objs):
-            o.update(m)
-            final_objs.append(o)
+        #for o, m in zip(objs, mtu_objs):
+        #    o.update(m)
+        final_objs = objs
 
         # Appending Remote Span value to related VLAN:
-        if remote_objs:
-            if remote_objs.get("remote_span"):
-                for each in remote_objs.get("remote_span"):
-                    for every in final_objs:
-                        if each == every.get("vlan_id"):
-                            every.update({"remote_span": True})
-                            break
+        #if remote_objs:
+        #    if remote_objs.get("remote_span"):
+        #        for each in remote_objs.get("remote_span"):
+        #            for every in final_objs:
+        #                if each == every.get("vlan_id"):
+        #                    every.update({"remote_span": True})
+        #                    break
         facts = {}
         if final_objs:
             facts["vlans"] = []
@@ -151,26 +155,39 @@ class VlansFacts(object):
         :returns: The generated config
         """
         config = deepcopy(spec)
+        out = open("/tmp/render_vlans.out", "a")
+        out.write ("vlan_info: %s\n" % vlan_info) 
+        out.write ("vlan_conf: %s\n" % conf) 
 
-        if vlan_info == "Name" and "VLAN Name" not in conf:
+        if vlan_info == "Name" and "VLAN  Name" not in conf:
+            out.write ("Check name\n") 
             conf = list(filter(None, conf.split(" ")))
+            out.write ("conf[0]: %s\n" % conf[0]) 
+            out.write ("conf[1]: %s\n" % conf[1]) 
+            out.write ("conf[2]: %s\n" % conf[2]) 
             config["vlan_id"] = int(conf[0])
             config["name"] = conf[1]
-            try:
-                if len(conf[2].split("/")) > 1:
-                    if conf[2].split("/")[0] == "sus":
-                        config["state"] = "suspend"
-                    elif conf[2].split("/")[0] == "act":
-                        config["state"] = "active"
-                    config["shutdown"] = "enabled"
-                else:
-                    if conf[2] == "suspended":
-                        config["state"] = "suspend"
-                    elif conf[2] == "active":
-                        config["state"] = "active"
-                    config["shutdown"] = "disabled"
-            except IndexError:
-                pass
+            config["state"] = conf[2]
+
+            if conf[2] == "active":
+                config["shutdown"] = "disabled"
+            else:
+                config["shutdown"] = "enabled"
+            #try:
+            #    if len(conf[2].split("/")) > 1:
+            #        if conf[2].split("/")[0] == "sus":
+            #            config["state"] = "suspend"
+            #        elif conf[2].split("/")[0] == "act":
+            #            config["state"] = "active"
+            #        config["shutdown"] = "enabled"
+            #    else:
+            #        if conf[2] == "suspended":
+            #            config["state"] = "suspend"
+            #        elif conf[2] == "active":
+            #            config["state"] = "active"
+            #        config["shutdown"] = "disabled"
+            #except IndexError:
+            #    pass
         elif vlan_info == "Type" and "VLAN Type" not in conf:
             conf = list(filter(None, conf.split(" ")))
             config["mtu"] = int(conf[3])
